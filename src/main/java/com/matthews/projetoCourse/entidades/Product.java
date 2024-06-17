@@ -1,34 +1,48 @@
 package com.matthews.projetoCourse.entidades;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
+import jakarta.persistence.Table;
+
+@Entity
+@Table(name = "tb_product")
 public class Product implements Serializable{
 	private static final long serialVersionUID = 1L;
 	
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long idProduct;
 	private String nameProduct;
 	private String descriptionProduct;
 	private Double priceProduct;
 	private String imgUrl;
 	
-	private Category categoryProduct;
-	private List<Order> listOrderProduct = new ArrayList<>();
+	@ManyToMany
+	@JoinTable(name = "tb_ProductCategory",
+	joinColumns = @JoinColumn(name = "idProduct"),
+	inverseJoinColumns = @JoinColumn(name = "idCategory"))
+	private Set<Category> categoryProduct = new HashSet<>();;
+//	private List<Order> listOrderProduct = new ArrayList<>();
 	
 	public Product() {
-		super();
 	}
 
-	public Product(Long idProduct, String nameProduct, String descriptionProduct, Double priceProduct, String imgUrl,
-			Category categoryProduct) {
+	public Product(Long idProduct, String nameProduct, String descriptionProduct, Double priceProduct, String imgUrl) {
 		this.idProduct = idProduct;
 		this.nameProduct = nameProduct;
 		this.descriptionProduct = descriptionProduct;
 		this.priceProduct = priceProduct;
 		this.imgUrl = imgUrl;
-		this.categoryProduct = categoryProduct;
 	}
 
 	public Long getIdProduct() {
@@ -67,17 +81,14 @@ public class Product implements Serializable{
 		this.imgUrl = imgUrl;
 	}
 
-	public Category getCategoryProduct() {
+	public Set<Category> getCategoryProduct() {
 		return categoryProduct;
 	}
-
-	public void setCategoryProduct(Category categoryProduct) {
-		this.categoryProduct = categoryProduct;
-	}
-
-	public List<Order> getListOrderProduct() {
-		return listOrderProduct;
-	}
+	
+//
+//	public List<Order> getListOrderProduct() {
+//		return listOrderProduct;
+//	}
 
 	@Override
 	public int hashCode() {
