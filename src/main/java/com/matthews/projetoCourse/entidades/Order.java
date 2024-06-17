@@ -1,68 +1,51 @@
 package com.matthews.projetoCourse.entidades;
 
 import java.io.Serializable;
-import java.util.Date;
+import java.time.Instant;
 import java.util.Objects;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
 
-import com.matthews.projetoCourse.enums.OrderStatus;
-
+@Entity
+@Table(name = "tb_Order")
 public class Order implements Serializable{
 	private static final long serialVersionUID = 1L;
 	
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long idOrder;
-	private Date moment;
-	private OrderStatus orderStatus;
+	private Instant moment;
 	
+	@ManyToOne
+	@JoinColumn(name = "IdUser")
 	private User userOrder;
-	private Payment payment;
-	private Product productOrder;
 	
 	public Order() {}
 	
-	public Order(Long idOrder, Date moment, OrderStatus orderStatus, User userOrder, Payment payment, Product productOrder) {
-		super();
+	public Order(Long idOrder, Instant moment, User userOrder) {
 		this.idOrder = idOrder;
 		this.moment = moment;
-		this.orderStatus = orderStatus;
 		this.userOrder = userOrder;
-		this.payment = payment;
-		this.productOrder = productOrder;
 	}
 	public Long getIdOrder() {
 		return idOrder;
 	}
-	public Date getMoment() {
+	public Instant getMoment() {
 		return moment;
 	}
-	public void setMoment(Date moment) {
+	public void setMoment(Instant moment) {
 		this.moment = moment;
-	}
-	public OrderStatus getOrderStatus() {
-		return orderStatus;
-	}
-	public void setOrderStatus(OrderStatus orderStatus) {
-		this.orderStatus = orderStatus;
 	}
 	public User getUserOrder() {
 		return userOrder;
 	}
 	public void setUserOrder(User userOrder) {
 		this.userOrder = userOrder;
-	}
-	public Payment getPayment() {
-		return payment;
-	}
-	public void setPayment(Payment payment) {
-		this.payment = payment;
-	}
-
-	
-	public Product getProductOrder() {
-		return productOrder;
-	}
-
-	public void setProductOrder(Product productOrder) {
-		this.productOrder = productOrder;
 	}
 
 	@Override

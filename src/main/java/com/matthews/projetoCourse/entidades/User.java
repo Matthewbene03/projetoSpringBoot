@@ -1,12 +1,15 @@
 package com.matthews.projetoCourse.entidades;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
-import jakarta.persistence.GenerationType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @Entity
@@ -21,6 +24,9 @@ public class User implements Serializable{
 	private String emailUser;
 	private String telefoneUser;
 	private String senhaUser;
+	
+	@OneToMany(mappedBy = "userOrder")
+	private List<Order> listOrderUser = new ArrayList<>();
 	
 	public User() {
 	}
@@ -62,6 +68,11 @@ public class User implements Serializable{
 	public void setSenhaUser(String senhaUser) {
 		this.senhaUser = senhaUser;
 	}
+	
+	public List<Order> getListOrderUser() {
+		return listOrderUser;
+	}
+	
 	@Override
 	public int hashCode() {
 		return Objects.hash(idUser);
@@ -76,11 +87,5 @@ public class User implements Serializable{
 			return false;
 		User other = (User) obj;
 		return Objects.equals(idUser, other.idUser);
-	}
-	
-	@Override
-	public String toString() {
-		return "User [idUser=" + idUser + ", nomeUser=" + nomeUser + ", emailUser=" + emailUser + ", telefoneUser="
-				+ telefoneUser + ", senhaUser=" + senhaUser + "]";
 	}
 }
