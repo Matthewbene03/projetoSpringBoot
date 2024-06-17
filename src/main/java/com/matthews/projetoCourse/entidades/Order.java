@@ -21,7 +21,7 @@ public class Order implements Serializable{
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long idOrder;
+	private Long id;
 	private Instant moment;
 	
 	private Integer orderStatus;
@@ -33,13 +33,13 @@ public class Order implements Serializable{
 	public Order() {}
 	
 	public Order(Long idOrder, Instant moment, OrderStatus orderStatus, User userOrder) {
-		this.idOrder = idOrder;
+		this.id = idOrder;
 		this.moment = moment;
 		this.setOrderStatus(orderStatus);
 		this.userOrder = userOrder;
 	}
 	public Long getIdOrder() {
-		return idOrder;
+		return id;
 	}
 	public Instant getMoment() {
 		return moment;
@@ -64,7 +64,7 @@ public class Order implements Serializable{
 	
 	@Override
 	public int hashCode() {
-		return Objects.hash(idOrder);
+		return Objects.hash(id);
 	}
 	@Override
 	public boolean equals(Object obj) {
@@ -75,6 +75,6 @@ public class Order implements Serializable{
 		if (getClass() != obj.getClass())
 			return false;
 		Order other = (Order) obj;
-		return Objects.equals(idOrder, other.idOrder);
+		return Objects.equals(id, other.id);
 	}
 }

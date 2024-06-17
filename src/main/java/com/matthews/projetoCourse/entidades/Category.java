@@ -1,50 +1,51 @@
 package com.matthews.projetoCourse.entidades;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Objects;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+
+@Entity
+@Table(name = "tb_category")
 public class Category implements Serializable{
 	private static final long serialVersionUID = 1L;
 	
-	private Long idCategory;
-	private String nameCategory;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long id;
+	private String name;
 	
-	List<Product> listProcuctCategory;
-
-	public Category() {
-		super();
+	public Category() {}
+	
+	public Category(Long id, String name) {
+		this.id = id;
+		this.name = name;
 	}
-
-	public Category(Long idCategory, String nameCategory) {
-		super();
-		this.idCategory = idCategory;
-		this.nameCategory = nameCategory;
-		this.listProcuctCategory = new ArrayList<>();
+	
+	public Long getId() {
+		return id;
 	}
-
-	public Long getIdCategory() {
-		return idCategory;
+	
+	public void setId(Long id) {
+		this.id = id;
 	}
-
-	public String getNameCategory() {
-		return nameCategory;
+	
+	public String getName() {
+		return name;
 	}
-
-	public void setNameCategory(String nameCategory) {
-		this.nameCategory = nameCategory;
+	
+	public void setName(String name) {
+		this.name = name;
 	}
-
-	public List<Product> getListProcuctCategory() {
-		return listProcuctCategory;
-	}
-
+	
 	@Override
 	public int hashCode() {
-		return Objects.hash(idCategory);
+		return Objects.hash(id);
 	}
-
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -54,6 +55,6 @@ public class Category implements Serializable{
 		if (getClass() != obj.getClass())
 			return false;
 		Category other = (Category) obj;
-		return Objects.equals(idCategory, other.idCategory);
+		return Objects.equals(id, other.id);
 	}
 }
