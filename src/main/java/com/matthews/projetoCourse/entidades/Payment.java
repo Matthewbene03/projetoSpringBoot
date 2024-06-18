@@ -1,22 +1,36 @@
 package com.matthews.projetoCourse.entidades;
 
 import java.io.Serializable;
-import java.util.Date;
+import java.time.Instant;
 import java.util.Objects;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.MapsId;
+import jakarta.persistence.OneToOne;
+import jakarta.persistence.Table;
+
+@Entity
+@Table(name = "tb_payment")
 public class Payment implements Serializable{
 	private static final long serialVersionUID = 1L;
 	
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long idPayment;
-	private Date moment;
+	private Instant moment;
 	
+	@OneToOne
+	@MapsId
 	private Order orderPayment;
 
 	public Payment() {
 		super();
 	}
 
-	public Payment(Long idPayment, Date moment, Order orderPayment) {
+	public Payment(Long idPayment, Instant moment, Order orderPayment) {
 		this.idPayment = idPayment;
 		this.moment = moment;
 		this.orderPayment = orderPayment;
@@ -26,11 +40,11 @@ public class Payment implements Serializable{
 		return idPayment;
 	}
 
-	public Date getMoment() {
+	public Instant getMoment() {
 		return moment;
 	}
 
-	public void setMoment(Date moment) {
+	public void setMoment(Instant moment) {
 		this.moment = moment;
 	}
 

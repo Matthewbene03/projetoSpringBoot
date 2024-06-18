@@ -16,6 +16,7 @@ import com.matthews.projetoCourse.Repository.UserRepository;
 import com.matthews.projetoCourse.entidades.Category;
 import com.matthews.projetoCourse.entidades.Order;
 import com.matthews.projetoCourse.entidades.OrderItem;
+import com.matthews.projetoCourse.entidades.Payment;
 import com.matthews.projetoCourse.entidades.Product;
 import com.matthews.projetoCourse.entidades.User;
 import com.matthews.projetoCourse.entidades.enums.OrderStatus;
@@ -82,5 +83,9 @@ public class TestConfig implements CommandLineRunner{
 		OrderItem oi4 = new OrderItem(o3, p5, 2, p5.getPriceProduct());
 
 		orderItemRepository.saveAll(Arrays.asList(oi1, oi2, oi3, oi4));
+		
+		Payment payment = new Payment(null, Instant.parse("2019-06-20T20:53:07Z"), o1);
+		o1.setPayment(payment);
+		orderRepository.save(o1);
 	}
 }
