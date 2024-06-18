@@ -1,13 +1,19 @@
 package com.matthews.projetoCourse.services;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 import com.matthews.projetoCourse.Repository.ProductRepository;
 import com.matthews.projetoCourse.entidades.Product;
+import com.matthews.projetoCourse.services.exception.DatabaseException;
+import com.matthews.projetoCourse.services.exception.ResourceNotFoundException;
+
+import jakarta.persistence.EntityNotFoundException;
 
 @Service
 public class ProductServices {
@@ -21,8 +27,12 @@ public class ProductServices {
 	}
 	
 	public Product findById(Long id){
-		Optional<Product> product = productRepository.findById(id);
-		return product.get();
+		try {
+			Optional<Product> product = productRepository.findById(id);
+			return product.get();
+		} catch(NoSuchElementException e) {
+			throw new ResourceNotFoundException(id);
+		}
 	}
 	
 	public Product insertProduct(Product product) {
@@ -30,9 +40,13 @@ public class ProductServices {
 	}
 	
 	public Product atualizeProduct(Long id, Product product) {
-		Product auxProduct = productRepository.getReferenceById(id);
-		atualize(auxProduct, product);
-		return productRepository.save(auxProduct);
+		try {
+			Product auxProduct = productRepository.getReferenceById(id);
+			atualize(auxProduct, product);
+			return productRepository.save(auxProduct);
+		} catch(EntityNotFoundException e) {
+			throw new ResourceNotFoundException(id);
+		}
 	}
 
 	private void atualize(Product auxProduct, Product product) {
@@ -43,6 +57,10 @@ public class ProductServices {
 	}
 	
 	public void deleteProduct(Long id) {
-		productRepository.deleteById(id);
+		try {
+			productRepository.deleteById(id);
+		}catch(DataIntegrityViolationException e){
+			throw new DatabaseException(e.getMessage());
+		}
 	}
 }

@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.matthews.projetoCourse.Repository.CategoryRepository;
 import com.matthews.projetoCourse.entidades.Category;
+import com.matthews.projetoCourse.entidades.Category;
 
 @Service
 public class CategoryServices {
@@ -23,5 +24,17 @@ public class CategoryServices {
 	public Category findById(Long id){
 		Optional<Category> category = categoryRepository.findById(id);
 		return category.get();
+	}
+	
+	public Category insertCategory(Category category) {
+		return null;
+	}
+	
+	public Category atualizeCategory() {
+		return null;
+	}
+	
+	public void deleteCategory() {
+		
 	}
 }
