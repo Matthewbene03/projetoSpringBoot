@@ -29,6 +29,7 @@ public class Order implements Serializable{
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	private Instant moment;
+	private Double total;
 	
 	private Integer orderStatus;
 	
@@ -49,7 +50,17 @@ public class Order implements Serializable{
 		this.moment = moment;
 		this.setOrderStatus(orderStatus);
 		this.userOrder = userOrder;
+		this.total = getTotal();
 	}
+	
+	public Double getTotal() {
+		Double soma = 0.0;
+		for(OrderItem x: setOrderItem) {
+			soma += x.getSubTotal();
+		}
+		return soma;
+	}
+	
 	public Long getIdOrder() {
 		return id;
 	}
