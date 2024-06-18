@@ -24,4 +24,24 @@ public class UserServices {
 		Optional<User> user = userRepository.findById(id);
 		return user.get();
 	}
+	
+	public User insertUser(User user) {
+		return userRepository.save(user);
+	}
+	
+	public User atualizeUser(Long id, User user) {
+		User auxUser = userRepository.getReferenceById(id);
+		atualize(auxUser, user);
+		return userRepository.save(auxUser);
+	}
+	
+	private void atualize(User auxUser, User user) {
+		auxUser.setNomeUser(user.getNomeUser());
+		auxUser.setEmailUser(user.getEmailUser());
+		auxUser.setTelefoneUser(user.getTelefoneUser());
+	}
+
+	public void deleteUser(Long id) {
+		userRepository.deleteById(id);
+	}
 }
