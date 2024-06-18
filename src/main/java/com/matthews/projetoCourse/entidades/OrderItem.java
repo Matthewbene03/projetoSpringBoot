@@ -3,8 +3,20 @@ package com.matthews.projetoCourse.entidades;
 import java.io.Serializable;
 import java.util.Objects;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.matthews.projetoCourse.entidades.pk.OrderItemPK;
+
+import jakarta.persistence.EmbeddedId;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Table;
+
+@Entity
+@Table(name = "tb_OrderItem")
 public class OrderItem implements Serializable{
 	private static final long serialVersionUID = 1L;
+	
+	@EmbeddedId
+	private OrderItemPK id;
 	
 	private Integer quantity;
 	private Double price;
@@ -13,12 +25,32 @@ public class OrderItem implements Serializable{
 		super();
 	}
 
-	public OrderItem(Integer quantity, Double price) {
-		super();
+	public OrderItem(Order order, Product product, Integer quantity, Double price) {
+		id = new OrderItemPK();
+		id.setOrder(order);
+		id.setProduct(product);
 		this.quantity = quantity;
 		this.price = price;
 	}
-
+	
+	//@JsonIgnore
+	public Order getOrderId() {
+		return id.getOrder();
+	}
+	
+	public void setOrderId(Order order) {
+		this.id.setOrder(order);
+	}
+	
+	@JsonIgnore
+	public Product getProductId() {
+		return id.getProduct();
+	}
+	
+	public void setProductId(Product product) {
+		this.id.setProduct(product);
+	}
+	
 	public Integer getQuantity() {
 		return quantity;
 	}
@@ -37,7 +69,7 @@ public class OrderItem implements Serializable{
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(price, quantity);
+		return Objects.hash(id);
 	}
 
 	@Override
@@ -49,6 +81,6 @@ public class OrderItem implements Serializable{
 		if (getClass() != obj.getClass())
 			return false;
 		OrderItem other = (OrderItem) obj;
-		return Objects.equals(price, other.price) && Objects.equals(quantity, other.quantity);
+		return Objects.equals(id, other.id);
 	}
 }
